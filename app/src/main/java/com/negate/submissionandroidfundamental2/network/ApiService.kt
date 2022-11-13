@@ -8,14 +8,14 @@ import retrofit2.http.*
 interface ApiService {
 
     @GET("search/users")
-    @Headers("Authorization: Bearer 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")
     suspend fun getListUser(
+        @Header("Authorization") auth: String,
         @Query("q") querySearch: String?
     ): Response<SearchModel>
 
-    @GET("user/{username}")
-    @Headers("Authorization: Bearer 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")
+    @GET("users/{username}")
     suspend fun getDetailUser(
+        @Header("Authorization") auth: String,
         @Path("username") username: String
     ): Response<UserModel>
 }

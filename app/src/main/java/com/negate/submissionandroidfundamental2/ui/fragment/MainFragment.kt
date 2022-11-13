@@ -1,25 +1,23 @@
-package com.negate.submissionandroidfundamental2.ui.main.fragment
+package com.negate.submissionandroidfundamental2.ui.fragment
 
 import android.app.SearchManager
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
-import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.negate.submissionandroidfundamental2.R
 import com.negate.submissionandroidfundamental2.databinding.FragmentMainBinding
 import com.negate.submissionandroidfundamental2.model.Item
 import com.negate.submissionandroidfundamental2.model.SearchModel
-import com.negate.submissionandroidfundamental2.ui.detail.DetailUserActivity
-import com.negate.submissionandroidfundamental2.ui.main.MainActivity
-import com.negate.submissionandroidfundamental2.ui.main.MainViewModel
-import com.negate.submissionandroidfundamental2.ui.main.UserAdapter
+import com.negate.submissionandroidfundamental2.ui.MainViewModel
+import com.negate.submissionandroidfundamental2.ui.UserAdapter
 
 class MainFragment : Fragment() {
 
@@ -39,8 +37,6 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupMenu()
-
-        viewModel.getData("repos:>1")
         viewModel.searchData.observe(viewLifecycleOwner) {
             setSearchData(it)
         }
@@ -55,17 +51,15 @@ class MainFragment : Fragment() {
         binding.rv.layoutManager = LinearLayoutManager(requireContext())
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(item: Item) {
-                startActivity(
-                    Intent(requireContext(), DetailUserActivity::class.java).apply {
-                        putExtra(MainActivity.INTENT, item)
-                    }
-                )
+                val directions = MainFragmentDirections
+                    .actionMainFragmentToDetailFragment(item.login)
+                view?.findNavController()?.navigate(directions)
             }
         })
     }
 
     private fun setupMenu() {
-        (activity as MenuHost).addMenuProvider(object : MenuProvider{
+        activity?.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.option_menu, menu)
                 searchView = menu.findItem(R.id.search).actionView as SearchView
@@ -75,9 +69,10 @@ class MainFragment : Fragment() {
                 val manager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
                 searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
                 searchView.queryHint = getString(R.string.search_hint)
-                searchView.setOnQueryTextListener(object : OnQueryTextListener{
+                searchView.setOnQueryTextListener(object : OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        viewModel.getData(query)
+                        val token = "Bearer ${getString(R.string.github_token)}"
+                        viewModel.getData(token, query)
                         searchView.clearFocus()
                         return true
                     }
@@ -86,7 +81,7 @@ class MainFragment : Fragment() {
                 })
                 return true
             }
-        })
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onDestroy() {

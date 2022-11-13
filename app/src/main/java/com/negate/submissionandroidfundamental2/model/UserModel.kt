@@ -7,15 +7,15 @@ data class UserModel(
     @SerializedName("avatar_url")
     val avatarUrl: String,
     @SerializedName("bio")
-    val bio: Any,
+    val bio: String,
     @SerializedName("blog")
     val blog: String,
     @SerializedName("company")
-    val company: Any,
+    val company: String,
     @SerializedName("created_at")
     val createdAt: String,
     @SerializedName("email")
-    val email: Any,
+    val email: String,
     @SerializedName("events_url")
     val eventsUrl: String,
     @SerializedName("followers")
@@ -31,13 +31,13 @@ data class UserModel(
     @SerializedName("gravatar_id")
     val gravatarId: String,
     @SerializedName("hireable")
-    val hireable: Any,
+    val hireable: String,
     @SerializedName("html_url")
     val htmlUrl: String,
     @SerializedName("id")
     val id: Int,
     @SerializedName("location")
-    val location: Any,
+    val location: String,
     @SerializedName("login")
     val login: String,
     @SerializedName("name")
@@ -61,7 +61,7 @@ data class UserModel(
     @SerializedName("subscriptions_url")
     val subscriptionsUrl: String,
     @SerializedName("twitter_username")
-    val twitterUsername: Any,
+    val twitterUsername: String,
     @SerializedName("type")
     val type: String,
     @SerializedName("updated_at")

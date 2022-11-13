@@ -4,4 +4,5 @@
     <string name="search_hint">Search username</string>
     <string name="avatar">avatar</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="follow">%1$s follower - %2$s following</string>
 </resources>

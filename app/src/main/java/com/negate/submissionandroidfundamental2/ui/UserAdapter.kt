@@ -1,4 +1,4 @@
-package com.negate.submissionandroidfundamental2.ui.main
+package com.negate.submissionandroidfundamental2.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

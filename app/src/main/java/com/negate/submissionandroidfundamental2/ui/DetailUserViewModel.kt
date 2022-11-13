@@ -1,4 +1,4 @@
-package com.negate.submissionandroidfundamental2.ui.detail
+package com.negate.submissionandroidfundamental2.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -16,26 +16,27 @@ class DetailUserViewModel : ViewModel() {
     private var _userDetail = MutableLiveData<UserModel>()
     val userDetail: LiveData<UserModel> = _userDetail
 
-    private val _userLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _userLoading
+    private var _userLoading = MutableLiveData<Boolean>()
+    val userLoading: LiveData<Boolean> = _userLoading
 
-    fun getUserDetail(username: String){
+    fun getDetailData(token: String, username: String) {
+        _userLoading.value = true
         viewModelScope.launch {
-            _userLoading.value = true
             val response = try {
-                ApiConfig.getApiService().getDetailUser(username)
-            } catch (e: IOException){
-                Log.e(TAG, "getUserDetail: Connection Problem")
+                ApiConfig.getApiService().getDetailUser(token, username)
+            } catch (e: IOException) {
+                Log.e(TAG, "getDetailData: Connection Problem")
                 _userLoading.value = false
                 return@launch
-            } catch (e: HttpException){
-                Log.e(TAG, "getUserDetail: ${e.message}")
+            } catch (e: HttpException) {
+                Log.e(TAG, "getDetailData: ${e.message()}")
                 _userLoading.value = false
                 return@launch
             }
 
-            if (response.isSuccessful && response.body() != null){
+            if (response.isSuccessful && response.body() != null) {
                 _userDetail.value = response.body()
+                _userLoading.value = false
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.negate.submissionandroidfundamental2.ui.main
+package com.negate.submissionandroidfundamental2.ui
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -19,11 +19,16 @@ class MainViewModel : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun getData(querySearch: String?) {
+    init {
+        val token = "Bearer "
+        getData(token, "repos:>1")
+    }
+
+    fun getData(auth: String, querySearch: String?) {
         viewModelScope.launch {
             _isLoading.value = true
             val response = try {
-                ApiConfig.getApiService().getListUser(querySearch)
+                ApiConfig.getApiService().getListUser(auth, querySearch)
             } catch (e: IOException) {
                 Log.e(TAG, "getData: Connection Problem")
                 _isLoading.value = false
