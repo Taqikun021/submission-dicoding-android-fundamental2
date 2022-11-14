@@ -20,7 +20,7 @@ class MainViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     init {
-        val token = "Bearer "
+        val token = "Bearer"
         getData(token, "repos:>1")
     }
 

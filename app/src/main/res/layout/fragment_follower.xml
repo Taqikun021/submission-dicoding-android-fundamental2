@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginHorizontal="16dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.fragment.MainFragment">
+    android:background="?android:attr/colorBackground"
+    tools:context=".ui.fragment.FollowerFragment">
 
     <ProgressBar
         android:id="@+id/loading"

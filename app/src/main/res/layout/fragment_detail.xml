@@ -139,7 +139,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:textColor="?android:attr/colorBackground"
-                app:drawableStartCompat="@drawable/ic_baseline_people_24"
+                app:drawableStartCompat="@drawable/ic_baseline_location_on_24"
                 app:drawableTint="?android:attr/colorBackground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -152,17 +152,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="?attr/colorOnPrimary"
+                app:tabTextColor="?android:attr/colorBackground"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/lokasi"
                 app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
 
-            <!--<androidx.viewpager2.widget.ViewPager2
+            <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:backgroundTint="?attr/backgroundColor"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tab" />-->
+                app:layout_constraintTop_toBottomOf="@id/tab" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
