@@ -1,150 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.fragment.DetailFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/main.appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimaryVariant">
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary">
 
-        <ProgressBar
-            android:id="@+id/loading"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/main.collapsing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingVertical="36dp"/>
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="64dp"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5">
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="36dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="?android:attr/actionBarSize"/>
 
-            <ImageView
-                android:id="@+id/avatar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="36dp"
-                android:contentDescription="@string/avatar"
-                android:src="@drawable/profile___default"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/name"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/open_sans_semibold"
-                android:textAlignment="center"
-                android:textColor="?android:attr/colorBackground"
-                android:textSize="18sp"
-                app:layout_constraintTop_toBottomOf="@id/avatar"
-                tools:text="Name" />
+                android:background="?attr/colorPrimaryVariant"
+                android:layout_marginBottom="?android:attr/actionBarSize"
+                app:layout_collapseMode="parallax"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5">
 
-            <TextView
-                android:id="@+id/username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:background="@android:color/darker_gray"
-                android:fontFamily="@font/open_sans"
-                android:paddingHorizontal="4dp"
-                android:textColor="?android:attr/colorBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/name"
-                tools:text="username" />
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="36dp"
+                    android:contentDescription="@string/avatar"
+                    android:src="@drawable/profile___default"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/bio"
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/open_sans_semibold"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorBackground"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toBottomOf="@id/avatar"
+                    tools:text="Name" />
+
+                <TextView
+                    android:id="@+id/username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:background="@android:color/darker_gray"
+                    android:fontFamily="@font/open_sans"
+                    android:paddingHorizontal="4dp"
+                    android:textColor="?android:attr/colorBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/name"
+                    tools:text="username" />
+
+                <TextView
+                    android:id="@+id/bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:paddingHorizontal="24dp"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/username"
+                    tools:text="myBio" />
+
+                <TextView
+                    android:id="@+id/twitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="8dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="?android:attr/colorBackground"
+                    app:drawableStartCompat="@drawable/icons8_twitter"
+                    app:drawableTint="?android:attr/colorBackground"
+                    app:layout_constraintEnd_toStartOf="@id/repo"
+                    app:layout_constraintStart_toStartOf="@id/avatar"
+                    app:layout_constraintTop_toBottomOf="@id/bio"
+                    tools:text="myBio" />
+
+                <TextView
+                    android:id="@+id/repo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="4dp"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingHorizontal="8dp"
+                    android:textColor="?android:attr/colorBackground"
+                    app:drawableStartCompat="@drawable/ic_baseline_book_24"
+                    app:drawableTint="?android:attr/colorBackground"
+                    app:layout_constraintEnd_toStartOf="@id/follow"
+                    app:layout_constraintStart_toEndOf="@id/twitter"
+                    app:layout_constraintTop_toBottomOf="@id/bio"
+                    tools:text="21" />
+
+                <TextView
+                    android:id="@+id/follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="4dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:textColor="?android:attr/colorBackground"
+                    app:drawableStartCompat="@drawable/ic_baseline_people_24"
+                    app:drawableTint="?android:attr/colorBackground"
+                    app:layout_constraintEnd_toEndOf="@id/avatar"
+                    app:layout_constraintStart_toEndOf="@id/repo"
+                    app:layout_constraintTop_toBottomOf="@id/bio"
+                    tools:text="21 follower - 24 following" />
+
+                <TextView
+                    android:id="@+id/lokasi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="4dp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:textColor="?android:attr/colorBackground"
+                    android:paddingBottom="8dp"
+                    app:drawableStartCompat="@drawable/ic_baseline_location_on_24"
+                    app:drawableTint="?android:attr/colorBackground"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/repo"
+                    tools:text="21 follower - 24 following" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/main.toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:paddingHorizontal="24dp"
-                android:textColor="?android:attr/colorBackground"
-                android:textAlignment="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/username"
-                tools:text="myBio" />
-
-            <TextView
-                android:id="@+id/twitter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="8dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="?android:attr/colorBackground"
-                app:drawableStartCompat="@drawable/icons8_twitter"
-                app:drawableTint="?android:attr/colorBackground"
-                app:layout_constraintEnd_toStartOf="@id/repo"
-                app:layout_constraintStart_toStartOf="@id/avatar"
-                app:layout_constraintTop_toBottomOf="@id/bio"
-                tools:text="myBio" />
-
-            <TextView
-                android:id="@+id/repo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="4dp"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:paddingHorizontal="8dp"
-                android:textColor="?android:attr/colorBackground"
-                app:drawableStartCompat="@drawable/ic_baseline_book_24"
-                app:drawableTint="?android:attr/colorBackground"
-                app:layout_constraintEnd_toStartOf="@id/follow"
-                app:layout_constraintStart_toEndOf="@id/twitter"
-                app:layout_constraintTop_toBottomOf="@id/bio"
-                tools:text="21" />
-
-            <TextView
-                android:id="@+id/follow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:drawablePadding="4dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:textColor="?android:attr/colorBackground"
-                app:drawableStartCompat="@drawable/ic_baseline_people_24"
-                app:drawableTint="?android:attr/colorBackground"
-                app:layout_constraintEnd_toEndOf="@id/avatar"
-                app:layout_constraintStart_toEndOf="@id/repo"
-                app:layout_constraintTop_toBottomOf="@id/bio"
-                tools:text="21 follower - 24 following" />
-
-            <TextView
-                android:id="@+id/lokasi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="4dp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:textColor="?android:attr/colorBackground"
-                app:drawableStartCompat="@drawable/ic_baseline_location_on_24"
-                app:drawableTint="?android:attr/colorBackground"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/repo"
-                tools:text="21 follower - 24 following" />
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab"
@@ -152,17 +174,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:backgroundTint="?attr/colorOnPrimary"
-                app:tabTextColor="?android:attr/colorBackground"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lokasi"
-                app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                android:layout_gravity="bottom"
+                app:layout_collapseMode="pin"
+                app:tabTextAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:tabTextColor="?android:attr/colorBackground" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tab" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="24dp"
+        android:src="@drawable/ic_baseline_favorite_border_24"
+        android:contentDescription="@string/fab"
+        app:tint="?android:attr/colorBackground"
+        app:backgroundTint="?attr/colorPrimaryVariant"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

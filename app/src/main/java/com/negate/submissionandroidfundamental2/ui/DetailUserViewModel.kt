@@ -34,6 +34,8 @@ class DetailUserViewModel : ViewModel() {
 
     fun getDetailData(token: String, username:String) {
         _userLoading.value = true
+        getFollower(token, username)
+        getFollowing(token, username)
         viewModelScope.launch {
             val response = try {
                 ApiConfig.getApiService()
@@ -52,9 +54,6 @@ class DetailUserViewModel : ViewModel() {
                 _userDetail.value = response.body()
                 _userLoading.value = false
             }
-
-            getFollower(token, username)
-            getFollowing(token, username)
         }
     }
 

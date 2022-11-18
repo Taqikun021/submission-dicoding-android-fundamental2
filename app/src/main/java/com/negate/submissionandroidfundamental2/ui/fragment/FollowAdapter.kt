@@ -8,7 +8,7 @@ import coil.transform.CircleCropTransformation
 import com.negate.submissionandroidfundamental2.databinding.UserListBinding
 import com.negate.submissionandroidfundamental2.model.FollowModel
 
-class FollowAdapter(private val items: List<FollowModel>?) :
+class FollowAdapter(private val items: List<FollowModel>) :
     RecyclerView.Adapter<FollowAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(private val binding: UserListBinding) :
@@ -34,11 +34,9 @@ class FollowAdapter(private val items: List<FollowModel>?) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = items?.get(position)
-        if (item != null) {
-            holder.bind(item)
-        }
+        val item = items[position]
+        holder.bind(item)
     }
 
-    override fun getItemCount(): Int = items?.size!!
+    override fun getItemCount(): Int = items.size
 }

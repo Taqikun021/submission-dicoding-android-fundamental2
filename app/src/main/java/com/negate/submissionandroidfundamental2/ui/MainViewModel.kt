@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.negate.submissionandroidfundamental2.BuildConfig
 import com.negate.submissionandroidfundamental2.model.SearchModel
 import com.negate.submissionandroidfundamental2.network.ApiConfig
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ class MainViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = _isLoading
 
     init {
-        val token = "Bearer"
+        val token = "Bearer ${BuildConfig.API_KEY}"
         getData(token, "repos:>1")
     }
 

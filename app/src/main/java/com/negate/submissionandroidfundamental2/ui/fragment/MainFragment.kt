@@ -4,6 +4,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.MenuProvider
@@ -12,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.negate.submissionandroidfundamental2.BuildConfig
 import com.negate.submissionandroidfundamental2.R
 import com.negate.submissionandroidfundamental2.databinding.FragmentMainBinding
 import com.negate.submissionandroidfundamental2.model.Item
@@ -67,19 +69,32 @@ class MainFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                val manager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
-                searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
-                searchView.queryHint = getString(R.string.search_hint)
-                searchView.setOnQueryTextListener(object : OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        val token = "Bearer ${getString(R.string.github_token)}"
-                        viewModel.getData(token, query)
-                        searchView.clearFocus()
+                when (menuItem.itemId){
+                    R.id.search -> {
+                        val manager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                        searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
+                        searchView.queryHint = getString(R.string.search_hint)
+                        searchView.setOnQueryTextListener(object : OnQueryTextListener {
+                            override fun onQueryTextSubmit(query: String?): Boolean {
+                                val token = "Bearer ${BuildConfig.API_KEY}"
+                                viewModel.getData(token, query)
+                                searchView.clearFocus()
+                                return true
+                            }
+
+                            override fun onQueryTextChange(newText: String?) = false
+                        })
+                    }
+                    R.id.fav -> {
+                        Toast.makeText(
+                            requireContext(),
+                            "You click favourite button!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         return true
                     }
-
-                    override fun onQueryTextChange(newText: String?) = false
-                })
+                    else -> return false
+                }
                 return true
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)

@@ -33,6 +33,7 @@ class FollowerFragment : Fragment() {
         }
         viewModel.followerLoading.observe(viewLifecycleOwner) {
             binding.loading.visibility = if (it) View.VISIBLE else View.GONE
+            binding.rv.visibility = if (it) View.GONE else View.VISIBLE
         }
     }
 

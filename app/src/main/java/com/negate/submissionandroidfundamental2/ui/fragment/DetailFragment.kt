@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
+import com.negate.submissionandroidfundamental2.BuildConfig
 import com.negate.submissionandroidfundamental2.R
 import com.negate.submissionandroidfundamental2.databinding.FragmentDetailBinding
 import com.negate.submissionandroidfundamental2.model.UserModel
@@ -20,6 +22,7 @@ class DetailFragment : Fragment() {
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
     private val viewModel: DetailUserViewModel by activityViewModels()
+    private var state: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +37,7 @@ class DetailFragment : Fragment() {
 
         setPager()
 
-        val token = "Bearer ${getString(R.string.github_token)}"
+        val token = "Bearer ${BuildConfig.API_KEY}"
         val username = arguments?.getString("username").toString()
 
         viewModel.getDetailData(token, username)
@@ -44,6 +47,28 @@ class DetailFragment : Fragment() {
 
         viewModel.userLoading.observe(viewLifecycleOwner) {
             showLoading(it)
+        }
+
+        binding.fab.setOnClickListener {
+            state = !state
+            changeFabIcon()
+        }
+    }
+
+    private fun changeFabIcon() {
+        when {
+            state -> binding.fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_baseline_favorite_24
+                )
+            )
+            else -> binding.fab.setImageDrawable(
+                ContextCompat.getDrawable(
+                    requireContext(),
+                    R.drawable.ic_baseline_favorite_border_24
+                )
+            )
         }
     }
 
