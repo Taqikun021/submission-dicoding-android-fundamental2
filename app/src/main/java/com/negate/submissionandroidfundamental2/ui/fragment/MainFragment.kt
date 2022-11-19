@@ -89,6 +89,9 @@ class MainFragment : Fragment() {
                         view?.findNavController()?.navigate(R.id.action_mainFragment_to_favFragment)
                         return true
                     }
+                    R.id.setting -> {
+                        view?.findNavController()?.navigate(R.id.action_mainFragment_to_settingsFragment)
+                    }
                     else -> return false
                 }
                 return true
