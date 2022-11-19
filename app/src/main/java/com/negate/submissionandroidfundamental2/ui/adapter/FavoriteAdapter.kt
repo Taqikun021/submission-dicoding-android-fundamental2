@@ -2,55 +2,33 @@ package com.negate.submissionandroidfundamental2.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.negate.submissionandroidfundamental2.database.Favorite
 import com.negate.submissionandroidfundamental2.databinding.UserFavListBinding
-import com.negate.submissionandroidfundamental2.helper.FavDiffCallback
+import com.negate.submissionandroidfundamental2.ui.fragment.FavFragmentDirections
 
-class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
+class FavoriteAdapter(private val onUnLoveClick: (Favorite) -> Unit) :
+    ListAdapter<Favorite, FavoriteAdapter.MyViewHolder>(DiffCallback) {
 
-    private val listFavorites = ArrayList<Favorite>()
-    fun setListFavorites(listFav: List<Favorite>) {
-        val diffCallback = FavDiffCallback(listFavorites, listFav)
-        val diffResult = DiffUtil.calculateDiff(diffCallback)
-        listFavorites.clear()
-        listFavorites.addAll(listFav)
-        diffResult.dispatchUpdatesTo(this)
-    }
-
-    private var onItemClickCallback: OnItemClickCallback? = null
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(favorite: Favorite)
-        fun onValueChanged(favorite: Favorite)
-    }
-
-    inner class MyViewHolder(private val binding: UserFavListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class MyViewHolder(val binding: UserFavListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(favorite: Favorite) {
             binding.apply {
                 name.text = favorite.username
                 location.text = favorite.profileUrl
-                fav.isChecked = true
                 avatar.load(favorite.avatar) {
                     crossfade(true)
                     crossfade(400)
                     transformations(CircleCropTransformation())
                 }
 
-                binding.fav.setOnCheckedChangeListener { _, _ ->
-                    onItemClickCallback?.onValueChanged(favorite)
-                }
-
                 itemView.setOnClickListener {
-                    onItemClickCallback?.onItemClicked(favorite)
+                    val nav = FavFragmentDirections.actionFavFragmentToDetailFragment(favorite.username)
+                    itemView.findNavController().navigate(nav)
                 }
             }
         }
@@ -62,10 +40,24 @@ class FavoriteAdapter : RecyclerView.Adapter<FavoriteAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.bind(listFavorites[position])
+        holder.bind(getItem(position))
+
+        val favButton = holder.binding.fav
+        favButton.setOnClickListener {
+            onUnLoveClick(getItem(position))
+        }
     }
 
-    override fun getItemCount() = listFavorites.size
+    companion object {
+        val DiffCallback: DiffUtil.ItemCallback<Favorite> =
+            object : DiffUtil.ItemCallback<Favorite>() {
+                override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
+                    return oldItem.username == newItem.username
+                }
 
-
+                override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
+                    return oldItem == newItem
+                }
+            }
+    }
 }

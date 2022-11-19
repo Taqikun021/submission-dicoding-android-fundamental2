@@ -50,14 +50,17 @@
             app:layout_constraintTop_toBottomOf="@id/name"
             tools:text="His URL" />
 
-        <CheckBox
+        <ImageButton
             android:id="@+id/fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:button="@drawable/fav_button"
+            android:src="@drawable/ic_baseline_favorite_24"
             android:gravity="center"
+            android:backgroundTint="?android:attr/colorBackground"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:tint="?android:attr/textColorPrimary"
+            android:contentDescription="@string/favorites" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

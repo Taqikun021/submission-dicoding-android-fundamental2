@@ -58,7 +58,6 @@ class DetailUserViewModel(private val favRepository: FavRepository) : ViewModel(
                     Log.e(TAG, "changeStatus: ${e.message}")
                     return@launch
                 }
-                _isFavorite.value = false
             } else {
                 try {
                     favRepository.insert(data)
@@ -66,8 +65,8 @@ class DetailUserViewModel(private val favRepository: FavRepository) : ViewModel(
                     Log.e(TAG, "changeStatus: ${e.message}")
                     return@launch
                 }
-                _isFavorite.value = true
             }
+            isFavorited(data.username)
         }
     }
 
