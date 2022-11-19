@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.core.view.MenuProvider
@@ -18,8 +17,8 @@ import com.negate.submissionandroidfundamental2.R
 import com.negate.submissionandroidfundamental2.databinding.FragmentMainBinding
 import com.negate.submissionandroidfundamental2.model.Item
 import com.negate.submissionandroidfundamental2.model.SearchModel
-import com.negate.submissionandroidfundamental2.ui.MainViewModel
-import com.negate.submissionandroidfundamental2.ui.UserAdapter
+import com.negate.submissionandroidfundamental2.ui.adapter.UserAdapter
+import com.negate.submissionandroidfundamental2.ui.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
@@ -69,9 +68,10 @@ class MainFragment : Fragment() {
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId){
+                when (menuItem.itemId) {
                     R.id.search -> {
-                        val manager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
+                        val manager =
+                            activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
                         searchView.setSearchableInfo(manager.getSearchableInfo(activity?.componentName))
                         searchView.queryHint = getString(R.string.search_hint)
                         searchView.setOnQueryTextListener(object : OnQueryTextListener {
@@ -86,11 +86,7 @@ class MainFragment : Fragment() {
                         })
                     }
                     R.id.fav -> {
-                        Toast.makeText(
-                            requireContext(),
-                            "You click favourite button!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                        view?.findNavController()?.navigate(R.id.action_mainFragment_to_favFragment)
                         return true
                     }
                     else -> return false

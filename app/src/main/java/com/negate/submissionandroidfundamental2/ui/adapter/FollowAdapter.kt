@@ -1,4 +1,4 @@
-package com.negate.submissionandroidfundamental2.ui
+package com.negate.submissionandroidfundamental2.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,24 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.negate.submissionandroidfundamental2.databinding.UserListBinding
-import com.negate.submissionandroidfundamental2.model.Item
+import com.negate.submissionandroidfundamental2.model.FollowModel
 
-class UserAdapter(private val items: List<Item>?) :
-    RecyclerView.Adapter<UserAdapter.MyViewHolder>() {
-
-    private var onItemClickCallback: OnItemClickCallback? = null
-
-    fun setOnItemClickCallback(onItemClickCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback
-    }
-
-    interface OnItemClickCallback {
-        fun onItemClicked(item: Item)
-    }
+class FollowAdapter(private val items: List<FollowModel>) :
+    RecyclerView.Adapter<FollowAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(private val binding: UserListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: Item) {
+        fun bind(item: FollowModel) {
             binding.apply {
                 name.text = item.login
                 location.text = item.htmlUrl
@@ -31,9 +21,6 @@ class UserAdapter(private val items: List<Item>?) :
                     crossfade(400)
                     crossfade(true)
                     transformations(CircleCropTransformation())
-                }
-                itemView.setOnClickListener {
-                    onItemClickCallback?.onItemClicked(item)
                 }
             }
         }
@@ -47,11 +34,9 @@ class UserAdapter(private val items: List<Item>?) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val item = items?.get(position)
-        if (item != null) {
-            holder.bind(item)
-        }
+        val item = items[position]
+        holder.bind(item)
     }
 
-    override fun getItemCount(): Int = items?.size!!
+    override fun getItemCount(): Int = items.size
 }

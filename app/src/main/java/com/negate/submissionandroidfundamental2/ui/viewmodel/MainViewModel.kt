@@ -1,4 +1,4 @@
-package com.negate.submissionandroidfundamental2.ui
+package com.negate.submissionandroidfundamental2.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

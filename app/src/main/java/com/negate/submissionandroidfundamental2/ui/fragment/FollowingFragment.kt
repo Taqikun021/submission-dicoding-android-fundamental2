@@ -8,14 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.negate.submissionandroidfundamental2.databinding.FragmentFollowingBinding
+import com.negate.submissionandroidfundamental2.helper.ViewModelFactory
 import com.negate.submissionandroidfundamental2.model.FollowModel
-import com.negate.submissionandroidfundamental2.ui.DetailUserViewModel
+import com.negate.submissionandroidfundamental2.ui.adapter.FollowAdapter
+import com.negate.submissionandroidfundamental2.ui.viewmodel.DetailUserViewModel
 
 class FollowingFragment : Fragment() {
 
     private var _binding: FragmentFollowingBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailUserViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +28,9 @@ class FollowingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        val viewModel: DetailUserViewModel by activityViewModels { factory }
 
         viewModel.following.observe(viewLifecycleOwner) {
             setData(it)

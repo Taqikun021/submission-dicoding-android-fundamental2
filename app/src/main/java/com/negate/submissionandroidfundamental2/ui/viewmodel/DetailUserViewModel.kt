@@ -1,18 +1,27 @@
-package com.negate.submissionandroidfundamental2.ui
+package com.negate.submissionandroidfundamental2.ui.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.negate.submissionandroidfundamental2.BuildConfig
+import com.negate.submissionandroidfundamental2.database.Favorite
 import com.negate.submissionandroidfundamental2.model.FollowModel
 import com.negate.submissionandroidfundamental2.model.UserModel
 import com.negate.submissionandroidfundamental2.network.ApiConfig
+import com.negate.submissionandroidfundamental2.repository.FavRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-class DetailUserViewModel : ViewModel() {
+class DetailUserViewModel(private val favRepository: FavRepository) : ViewModel() {
+
+    private val token = "Bearer ${BuildConfig.API_KEY}"
+
+    private val _isFavorite = MutableLiveData<Boolean>()
+    val isFavorite: LiveData<Boolean> = _isFavorite
 
     private var _userDetail = MutableLiveData<UserModel>()
     val userDetail: LiveData<UserModel> = _userDetail
@@ -32,10 +41,52 @@ class DetailUserViewModel : ViewModel() {
     private var _followingLoading = MutableLiveData<Boolean>()
     val followingLoading: LiveData<Boolean> = _followingLoading
 
-    fun getDetailData(token: String, username:String) {
+    fun initialize(username: String) {
+        getDetailData(username)
+        getFollower(username)
+        getFollowing(username)
+        isFavorited(username)
+    }
+
+    fun changeStatus() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = makeData()
+            if (_isFavorite.value == true) {
+                try {
+                    favRepository.delete(data)
+                } catch (e: IOException){
+                    Log.e(TAG, "changeStatus: ${e.message}")
+                    return@launch
+                }
+                _isFavorite.value = false
+            } else {
+                try {
+                    favRepository.insert(data)
+                } catch (e: IOException){
+                    Log.e(TAG, "changeStatus: ${e.message}")
+                    return@launch
+                }
+                _isFavorite.value = true
+            }
+        }
+    }
+
+    private fun makeData(): Favorite {
+        return Favorite(
+            username = userDetail.value?.login.toString(),
+            profileUrl = userDetail.value?.htmlUrl,
+            avatar = userDetail.value?.avatarUrl
+        )
+    }
+
+    private fun isFavorited(username: String) {
+        viewModelScope.launch {
+            _isFavorite.value = favRepository.isUserFavorite(username)
+        }
+    }
+
+    private fun getDetailData(username: String) {
         _userLoading.value = true
-        getFollower(token, username)
-        getFollowing(token, username)
         viewModelScope.launch {
             val response = try {
                 ApiConfig.getApiService()
@@ -57,7 +108,7 @@ class DetailUserViewModel : ViewModel() {
         }
     }
 
-    private fun getFollower(token: String, username:String) {
+    private fun getFollower(username: String) {
         viewModelScope.launch {
             _followerLoading.value = true
             val response = try {
@@ -82,7 +133,7 @@ class DetailUserViewModel : ViewModel() {
         }
     }
 
-    private fun getFollowing(token: String, username:String) {
+    private fun getFollowing(username: String) {
         viewModelScope.launch {
             _followingLoading.value = true
             val response = try {

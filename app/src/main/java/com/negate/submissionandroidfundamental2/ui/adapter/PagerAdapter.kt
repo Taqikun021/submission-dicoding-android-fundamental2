@@ -1,4 +1,4 @@
-package com.negate.submissionandroidfundamental2.ui
+package com.negate.submissionandroidfundamental2.ui.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

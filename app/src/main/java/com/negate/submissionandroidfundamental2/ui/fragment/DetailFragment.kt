@@ -10,19 +10,17 @@ import androidx.fragment.app.activityViewModels
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
-import com.negate.submissionandroidfundamental2.BuildConfig
 import com.negate.submissionandroidfundamental2.R
 import com.negate.submissionandroidfundamental2.databinding.FragmentDetailBinding
+import com.negate.submissionandroidfundamental2.helper.ViewModelFactory
 import com.negate.submissionandroidfundamental2.model.UserModel
-import com.negate.submissionandroidfundamental2.ui.DetailUserViewModel
-import com.negate.submissionandroidfundamental2.ui.PagerAdapter
+import com.negate.submissionandroidfundamental2.ui.adapter.PagerAdapter
+import com.negate.submissionandroidfundamental2.ui.viewmodel.DetailUserViewModel
 
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: DetailUserViewModel by activityViewModels()
-    private var state: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,12 +33,14 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val factory = ViewModelFactory.getInstance(requireActivity())
+        val viewModel: DetailUserViewModel by activityViewModels { factory }
+
         setPager()
 
-        val token = "Bearer ${BuildConfig.API_KEY}"
         val username = arguments?.getString("username").toString()
+        viewModel.initialize(username)
 
-        viewModel.getDetailData(token, username)
         viewModel.userDetail.observe(viewLifecycleOwner) {
             showData(it)
         }
@@ -49,13 +49,16 @@ class DetailFragment : Fragment() {
             showLoading(it)
         }
 
+        viewModel.isFavorite.observe(viewLifecycleOwner) {
+            changeFabIcon(it)
+        }
+
         binding.fab.setOnClickListener {
-            state = !state
-            changeFabIcon()
+            viewModel.changeStatus()
         }
     }
 
-    private fun changeFabIcon() {
+    private fun changeFabIcon(state: Boolean) {
         when {
             state -> binding.fab.setImageDrawable(
                 ContextCompat.getDrawable(
